@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MohaProject.MultiTenancy;
 using Volo.Abp.AuditLogging;
@@ -14,6 +14,7 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.MailKit;
 
 namespace MohaProject;
 
@@ -30,7 +31,8 @@ namespace MohaProject;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
-public class MohaProjectDomainModule : AbpModule
+[DependsOn(typeof(AbpMailKitModule))]
+    public class MohaProjectDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -61,8 +63,8 @@ public class MohaProjectDomainModule : AbpModule
             options.IsEnabled = MultiTenancyConsts.IsEnabled;
         });
 
-#if DEBUG
-        context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
-#endif
+//#if DEBUG
+//        context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
+//#endif
     }
 }

@@ -1,66 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 
-namespace MohaProject;
+namespace MohaProject.Web.Models;
 
 public class DataFormModel
 {
-    [JsonPropertyName("projectId")]
     public int ProjectId { get; set; }
 
-    [JsonPropertyName("firstName")]
     public string FirstName { get; set; }
 
-    [JsonPropertyName("middleName")]
-    public string MiddleName { get; set; }
-
-    [JsonPropertyName("lastName")]
     public string LastName { get; set; }
 
-    [JsonPropertyName("gender")]
-    public string Gender { get; set; }
-
-    [JsonPropertyName("dob")]
-    public DateTime Birthday { get; set; }
-
-    [JsonPropertyName("email")]
     public string Email { get; set; }
 
-    [JsonPropertyName("phone")]
     public string Phone { get; set; }
 
-    [JsonPropertyName("bio")]
     public string Bio { get; set; }
 
-    [JsonPropertyName("experience")]
-    public string Experience { get; set; }
+    public string Vision { get; set; }
 
-    [JsonPropertyName("projectDetails")]
-    public string ProjectDetails { get; set; }
+    public string Skills { get; set; }
 
-    [JsonPropertyName("projectLinks")]
-    public string ProjectLinks { get; set; }
+    public IFormFile Profile { get; set; }
 
-    [JsonPropertyName("linkedin")]
+    public string DepartmentName { get; set; }
+
+    public string UniversityName { get; set; }
+
+    public string DateOfGraduation { get; set; }
+
+    public string FirstPositionTitle { get; set; }
+
+    public string FirstPositionDescription { get; set; }
+
+    public string FirstPositionEndDate { get; set; }
+
+    public string SecondPositionTitle { get; set; }
+
+    public string SecondPositionDescription { get; set; }
+
+    public string SecondPositionEndDate { get; set; }
+
+    public string ThirdPositionTitle { get; set; }
+
+    public string ThirdPositionDescription { get; set; }
+
+    public string ThirdPositionEndDate { get; set; }
+
+    public string FirstProjectName { get; set; }
+
+    public string FirstProjectDescription { get; set; }
+
+    public IFormFile FirstProjectPicture { get; set; }
+
+    public string SecondProjectName { get; set; }
+
+    public string SecondProjectDescription { get; set; }
+
+    public IFormFile SecondProjectPicture { get; set; }
+
+    public string ThirdProjectName { get; set; }
+
+    public string ThirdProjectDescription { get; set; }
+
+    public IFormFile ThirdProjectPicture { get; set; }
+
     public string LinkedinUrl { get; set; }
 
-    [JsonPropertyName("github")]
-    public string GithubUrl { get; set; }
+    public string FacebookUrl { get; set; }
 
-    [JsonPropertyName("instagram")]
     public string InstagramUrl { get; set; }
 
-    [JsonPropertyName("tiktok")]
-    public string TiktokUrl { get; set; }
-
-    [JsonPropertyName("certification")]
-    public string CertificationName { get; set; }
-
-    [JsonPropertyName("profilePic")]
-    public IFormFile Pofile { get; set; }
-
-    [JsonPropertyName("certifications")]
-    public List<IFormFile> Certifications { get; set; }
+    public string XUrl { get; set; }
 }

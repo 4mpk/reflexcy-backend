@@ -16,34 +16,28 @@ using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web;
-using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.AspNetCore.Mvc.Libs;
 using System.Collections.Generic;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Any;
+using Volo.Abp.MailKit;
+using MailKit.Security;
 
 namespace MohaProject.Web;
 
@@ -99,6 +93,11 @@ public class MohaProjectWebModule : AbpModule
             PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
             {
                 serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", "b025e934-9f5b-45cb-9e2b-534f48d0e06d");
+            });
+
+            Configure<AbpMailKitOptions>(options =>
+            {
+                options.SecureSocketOption = SecureSocketOptions.SslOnConnect;
             });
         }
     }
@@ -219,7 +218,10 @@ public class MohaProjectWebModule : AbpModule
                         "api/account/my-profile",
                         "api/account/my-profile/change-password",
                         "favorites/*",
-                        "templates/*"
+                        "savedprojects/*",
+                        "templates/*",
+                        "file/*",
+                        "Entities/*"
                     };
 
                     var relativePath = apiDesc.RelativePath?.ToLowerInvariant();
@@ -349,7 +351,7 @@ public class MohaProjectWebModule : AbpModule
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
-
+        app.UseStaticFiles();
         if (MultiTenancyConsts.IsEnabled)
         {
             app.UseMultiTenancy();

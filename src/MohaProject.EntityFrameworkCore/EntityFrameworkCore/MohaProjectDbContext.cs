@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MohaProject.DataForms;
+using MohaProject.Entities;
 using MohaProject.Favorites;
+using MohaProject.SavedProjects;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -57,6 +59,11 @@ public class MohaProjectDbContext :
 
     public DbSet<DataForm> DataForms { get; set; }
     public DbSet<Favorite> Favorites { get; set; }
+    public DbSet<SavedProject> SaveProjects { get; set; }
+    public DbSet<ContactSupport> ContactSupports { get; set; }
+    public DbSet<ReportBug> ReportBugs { get; set; }
+    public DbSet<RequestFeature> RequestFeatures { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
 
     public MohaProjectDbContext(DbContextOptions<MohaProjectDbContext> options)
         : base(options)
