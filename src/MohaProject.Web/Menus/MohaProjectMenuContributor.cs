@@ -35,9 +35,41 @@ public class MohaProjectMenuContributor : IMenuContributor
         );
 
         administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
+        //administration.TryRemoveMenuItem(IdentityMenuNames.GroupName);
 
-        administration.SetSubItemOrder(IdentityMenuNames.Users, 2);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
+
+        context.Menu.Items.Insert(1, 
+            new ApplicationMenuItem(
+                MohaProjectMenus.ReportBug,
+                "Report Bug",
+                icon: "fa-solid fa-circle custom-dot",
+                url: "/ReportBugs", 
+                order: 1));
+
+        context.Menu.Items.Insert(1, 
+            new ApplicationMenuItem(
+                MohaProjectMenus.ContactSupport,
+                "Contact Support",
+                icon: "fa-solid fa-circle custom-dot",
+                url: "/ContactSupport", 
+                order: 1));
+
+        context.Menu.Items.Insert(1, 
+            new ApplicationMenuItem(
+                MohaProjectMenus.Feedback,
+                "Feedback",
+                icon: "fa-solid fa-circle custom-dot",
+                url: "/Feedbacks", 
+                order: 1));
+
+        context.Menu.Items.Insert(1, 
+            new ApplicationMenuItem(
+                MohaProjectMenus.RequestFeature,
+                "Request Feature",
+                icon: "fa-solid fa-circle custom-dot",
+                url: "/RequestFeatures", 
+                order: 1));
 
         return Task.CompletedTask;
     }

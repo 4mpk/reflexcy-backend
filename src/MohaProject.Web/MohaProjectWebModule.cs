@@ -214,6 +214,7 @@ public class MohaProjectWebModule : AbpModule
                         "api/app/custom-account/verify-reset-password",
                         "api/app/custom-account/do-reset-password",
                         "api/app/custom-account/register",
+                        "api/app/custom-account",
                         "api/account/logout",
                         "api/account/my-profile",
                         "api/account/my-profile/change-password",

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Users;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MohaProject.Web.Controllers;
 
@@ -47,7 +48,15 @@ public class TemplatesController : AbpController
     {
         var dataForm = await _dataFormRepository.GetAsync(dataFormId);
 
-        string templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "template.html");
+        var templateName = templateCategories.GetValueOrDefault(dataForm.ProjectId) switch
+        {
+            "Software" or "Computer" => "template3.html",
+            "Photography" => "template2.html",
+            "Fashion" => "template1.html",
+            _ => "template.html",
+        };
+
+        string templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", templateName);
         string htmlTemplate = System.IO.File.ReadAllText(templatePath);
 
         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "templates");
@@ -93,6 +102,9 @@ public class TemplatesController : AbpController
         var displayProjects = string.IsNullOrEmpty(dataForm.FirstProjectName) 
             && string.IsNullOrEmpty(dataForm.SecondProjectName)
             && string.IsNullOrEmpty(dataForm.ThirdProjectName) ? "display: none" : "";
+        var displayExpeience = string.IsNullOrEmpty(dataForm.FirstPositionTitle)
+            && string.IsNullOrEmpty(dataForm.SecondPositionTitle)
+            && string.IsNullOrEmpty(dataForm.ThirdPositionTitle) ? "display: none" : "";
 
         string htmlContent = htmlTemplate
             .Replace("{{FirstName}}", dataForm.FirstName)
@@ -115,6 +127,7 @@ public class TemplatesController : AbpController
             .Replace("{{DisplayFirstPosition}}", displayFirstPosition)
             .Replace("{{DisplaySecondPosition}}", displaySecondPosition)
             .Replace("{{DisplayThirdPosition}}", displayThirdPosition)
+            .Replace("{{DisplayExperience}}", displayExpeience)
             .Replace("{{FirstPositionTitle}}", dataForm.FirstPositionTitle)
             .Replace("{{FirstPositionDescription}}", dataForm.FirstPositionDescription)
             .Replace("{{FirstPositionEndDate}}", dataForm.FirstPositionEndDate)
@@ -145,6 +158,110 @@ public class TemplatesController : AbpController
             .Replace("{{DisplayX}}", string.IsNullOrEmpty(dataForm.XUrl) ? "display: none" : "block")
             .Replace("{{InstagramUrl}}", dataForm.InstagramUrl)
             .Replace("{{DisplayInstagram}}", string.IsNullOrEmpty(dataForm.InstagramUrl) ? "display: none" : "");
+
+        // Convert HTML to PDF
+        HtmlToPdf converter = new();
+        converter.Options.PdfPageSize = PdfPageSize.Custom;
+        converter.Options.PdfPageCustomSize = new System.Drawing.SizeF(288, 90);
+        byte[] pdf = converter.ConvertHtmlString(htmlContent).Save();
+
+        // Return file as download
+        return File(pdf, "application/pdf", "Portfolio.pdf");
+    }
+
+    [AllowAnonymous]
+    [HttpGet("PDF/Sample")]
+    public async Task<IActionResult> GetSamplePdf(int projectId)
+    {
+        var templateName = templateCategories.GetValueOrDefault(projectId) switch
+        {
+            "Software" or "Computer" => "template3.html",
+            "Photography" => "template2.html",
+            "Fashion" => "template1.html",
+            _ => "template.html",
+        };
+
+        string templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", templateName);
+        string htmlTemplate = System.IO.File.ReadAllText(templatePath);
+
+        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "templates");
+
+        var profile = Directory.GetFiles(folderPath)
+                                .Select(Path.GetFileName)
+                                .FirstOrDefault(f => f.StartsWith($"Sample_Profile_"));
+
+        var profileUrl = profile != null ? $"{Request.Scheme}://{Request.Host}/templates/{profile}" : "";
+
+        var firstProject = Directory.GetFiles(folderPath)
+                                .Select(Path.GetFileName)
+                                .FirstOrDefault(f => f.StartsWith($"Sample_FirstProjectPicture_"));
+
+        var firstProjectUrl = firstProject != null ? $"{Request.Scheme}://{Request.Host}/templates/{firstProject}" : "";
+
+        var secondProject = Directory.GetFiles(folderPath)
+                                .Select(Path.GetFileName)
+                                .FirstOrDefault(f => f.StartsWith($"Sample_SecondProjectPicture_"));
+
+        var secondProjectUrl = secondProject != null ? $"{Request.Scheme}://{Request.Host}/templates/{secondProject}" : "";
+
+        var thirdProject = Directory.GetFiles(folderPath)
+                                .Select(Path.GetFileName)
+                                .FirstOrDefault(f => f.StartsWith($"Sample_ThirdProjectPicture_"));
+
+        var thirdProjectUrl = thirdProject != null ? $"{Request.Scheme}://{Request.Host}/templates/{thirdProject}" : "";
+
+        string htmlContent = htmlTemplate
+            .Replace("{{FirstName}}", "Hasan")
+            .Replace("{{LastName}}", "Ali")
+            .Replace("{{Email}}", "HasanAli@gmail.com")
+            .Replace("{{Phone}}", "+905386660000")
+            .Replace("{{CategoryName}}", templateCategories.GetValueOrDefault(projectId))
+            .Replace("{{Profile}}", profileUrl)
+            .Replace("{{Vision}}", "Through my lens, I aim to reveal the beauty in simplicity and the power of raw emotions. I believe in telling visual stories that resonate deeply with people — stories that linger in memory and stir the heart. I’m driven by constant exploration, both creatively and culturally.")
+            .Replace("{{DisplayVision}}", "")
+            .Replace("{{Bio}}", "I’m a passionate photographer and video editor capturing unique moments and visual stories. My work ranges from street photography to event shoots, and I always aim to bring emotion and creativity into every frame.")
+            .Replace("{{DisplayBio}}", "")
+            .Replace("{{Skills}}", "Portrait Photography, Street Photography, Video Editing, Color Grading")
+            .Replace("{{DisplaySkills}}", "")
+            .Replace("{{DisplayEducation}}", "")
+            .Replace("{{DisplayEducationPage}}", "")
+            .Replace("{{DepartmentName}}", "B.Sc. in Software Engineering")
+            .Replace("{{UniversityName}}", "University of Istanbul")
+            .Replace("{{DateOfGraduation}}", "2025")
+            .Replace("{{DisplayFirstPosition}}", "")
+            .Replace("{{DisplaySecondPosition}}", "")
+            .Replace("{{DisplayThirdPosition}}", "")
+            .Replace("{{DisplayExperience}}", "")
+            .Replace("{{FirstPositionTitle}}", "Full Stack Developer")
+            .Replace("{{FirstPositionDescription}}", "At Microsoft")
+            .Replace("{{FirstPositionEndDate}}", "2022")
+            .Replace("{{SecondPositionTitle}}", "Software Engineer")
+            .Replace("{{SecondPositionDescription}}", "At Google")
+            .Replace("{{SecondPositionEndDate}}", "2024")
+            .Replace("{{ThirdPositionTitle}}", "Team Lead")
+            .Replace("{{ThirdPositionDescription}}", "At Apple")
+            .Replace("{{ThirdPositionEndDate}}", "2025")
+            .Replace("{{DisplayProjects}}", "")
+            .Replace("{{DisplayFirstProject}}", "")
+            .Replace("{{DisplaySecondProject}}", "")
+            .Replace("{{DisplayThirdProject}}", "")
+            .Replace("{{FirstProjectName}}", "Yemek Sepeti")
+            .Replace("{{FirstProjectDescription}}", "Delivery food to your address as fast as possible")
+            .Replace("{{FirstProjectUrl}}", firstProjectUrl)
+            .Replace("{{SecondProjectName}}", "Bir Taxi")
+            .Replace("{{SecondProjectDescription}}", "Ordering a taxi for going to any whare in Istanbul")
+            .Replace("{{SecondProjectUrl}}", secondProjectUrl)
+            .Replace("{{ThirdProjectName}}", "Trendyol")
+            .Replace("{{ThirdProjectDescription}}", "E-Ticaret sistemi")
+            .Replace("{{ThirdProjectUrl}}", thirdProjectUrl)
+            .Replace("{{LinkedinUrl}}", "https://www.linkedin.com/")
+            .Replace("{{DisplayLinkedIn}}", "")
+            .Replace("{{FacebookUrl}}", "https://www.facebook.com/")
+            .Replace("{{DisplayFacebook}}", "")
+            .Replace("{{XUrl}}", "https://x.com/")
+            .Replace("{{DisplayX}}", "")
+            .Replace("{{InstagramUrl}}", "https://www.instagram.com/")
+            .Replace("{{DisplayInstagram}}", "");
 
         // Convert HTML to PDF
         HtmlToPdf converter = new();

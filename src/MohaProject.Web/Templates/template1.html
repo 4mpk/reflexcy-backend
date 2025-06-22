@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Fashion Designer Portfolio</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body style="margin: 0; font-family: 'Georgia', serif; background-color: #fdfdfc">
+    <!-- Cover Section -->
+    <div style="display: flex; height: 320px;">
+        <div style=" flex: 1; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center;">
+            <h1 style="font-size: 26px; margin: 20px 0 10px 0">
+                Fashion <span style="font-style: italic">Designer</span><br />
+                <span style="font-style: italic">Portfolio</span>
+            </h1>
+            <p style="font-size: 14px; color: #666">
+                Presented by:
+                <span style="color: #e99653; font-weight: bold">{{FirstName}} {{LastName}}</span>
+            </p>
+        </div>
+        <div style=" flex: 1; background-color: #f2a974; display: flex; align-items: center; justify-content: center;">
+            <img src="{{Profile}}"
+                 alt="Model"
+                 style="width: 100%; height: 320px; object-fit: cover" />
+        </div>
+    </div>
+
+    <!-- About Me Section -->
+    <div style="display: flex; padding: 0; background-color: #fdfdfc; height: 320px; {{DisplayBio}}">
+        <div style=" flex: 1; background-color: #2c2c2c; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative;">
+            <img src="{{Profile}}" alt="Olivia Wilson" style=" width: 100%; max-width: 400px; object-fit: cover; filter: grayscale(100%);" />
+            <div style=" position: absolute; top: 20px; right: 60px; font-size: 40px; color: #f2a974;">
+                ✱
+            </div>
+            <div style=" position: absolute; bottom: 40px; left: 40px; font-size: 40px; color: #f2a974;">
+                ✱
+            </div>
+            <!--<div style=" position: absolute; writing-mode: vertical-rl; text-orientation: mixed; left: 10px; top: 50%; transform: translateY(-50%); color: #e9a568; font-size: 12px; letter-spacing: 1px;">
+                #01 Fashion Designer Portfolio
+            </div>-->
+        </div>
+        <div style="flex: 1; padding: 0px 40px">
+            <p style="
+            border-top: 4px solid #f2a974;
+            width: 30px;
+            margin-bottom: 20px;
+          "></p>
+            <h1 style="font-size: 26px; margin-bottom: 20px">
+                Hello,<br />
+                I’m <span style="color: #e99653">{{FirstName}} {{LastName}}!</span>
+            </h1>
+            <p style="font-size: 16px; line-height: 1.8; color: #333">
+                {{Bio}}
+            </p>
+        </div>
+    </div>
+
+    <!-- Education Section -->
+    <div style="margin:0; padding: 0px 40px; background-color: #fefdfb; height: 320px; {{DisplayEducationPage}}">
+        <h1 style="font-size: 40px; text-align: center; margin: 0; padding: 40px 0px;">
+            Education
+            <span style="color: #e9a568; font-style: italic">Background:</span>
+        </h1>
+        <div style="
+          margin-top: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          max-width: 1000px;
+          margin-left: auto;
+          margin-right: auto;
+          position: relative;
+        ">
+            <div style="
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e9a568;
+          "></div>
+            <div style="text-align: center; width: 25%">
+            </div>
+            <div style="text-align: center; width: 25%">
+                <div style="
+                       width: 12px;
+                       height: 12px;
+                       background-color: #e9a568;
+                       border-radius: 50%;
+                       margin: 0 auto;
+                     "></div>
+                <p style="font-size: 14px; margin-top: 10px">{{DateOfGraduation}}</p>
+                <p style="font-weight: bold">Borcelle Vocational<br />{{DepartmentName}}</p>
+                <p style="font-size: 13px; font-style: italic">{{UniversityName}}</p>
+            </div>
+            <div style="text-align: center; width: 25%">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Experience Section -->
+    <div style="margin:0; padding: 0px 40px; background-color: #fefdfb; height: 320px; {{DisplayExperience}}">
+        <h1 style="font-size: 40px; padding: 40px 0px; text-align: center; margin: 0; ">
+            Experience
+            <span style="color: #e9a568; font-style: italic">Background:</span>
+        </h1>
+        <div style="
+              margin-top: 0;
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              max-width: 1000px;
+              margin-left: auto;
+              margin-right: auto;
+              position: relative;
+            ">
+            <div style="
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: #e9a568;
+      "></div>
+            <div style="text-align: center; width: 25% {{DisplayFirstPosition}}">
+                <div style="
+          width: 12px;
+          height: 12px;
+          background-color: #e9a568;
+          border-radius: 50%;
+          margin: 0 auto;
+        "></div>
+                <p style="font-size: 14px; margin-top: 10px">{{FirstPositionEndDate}}</p>
+                <p style="font-weight: bold">{{FirstPositionTitle}}</p>
+                <p style="font-size: 13px; font-style: italic">{{FirstPositionDescription}}</p>
+            </div>
+            <div style="text-align: center; width: 25% {{DisplaySecondPosition}}">
+                <div style="
+                      width: 12px;
+                      height: 12px;
+                      background-color: #e9a568;
+                      border-radius: 50%;
+                      margin: 0 auto;
+                    "></div>
+                <p style="font-size: 14px; margin-top: 10px">{{SecondPositionEndDate}}</p>
+                <p style="font-weight: bold">{{SecondPositionTitle}}</p>
+                <p style="font-size: 13px; font-style: italic">{{SecondPositionDescription}}</p>
+            </div>
+            <div style="text-align: center; width: 25% {{DisplayThirdPosition}}">
+                <div style="
+                      width: 12px;
+                      height: 12px;
+                      background-color: #e9a568;
+                      border-radius: 50%;
+                      margin: 0 auto;
+                    "></div>
+                <p style="font-size: 14px; margin-top: 10px">{{ThirdPositionEndDate}}</p>
+                <p style="font-weight: bold">{{ThirdPositionTitle}}</p>
+                <p style="font-size: 13px; font-style: italic">{{ThirdPositionDescription}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div style="padding: 0px 40px; background-color: #fff4e9; height: 320px; {{DisplayProjects}}">
+        <h1 style="font-size: 40px; text-align: center; padding-top: 20px; margin-bottom: 20px; margin-top: 0;">
+            My <span style="color: #e99653; font-style: italic">Projects</span>
+        </h1>
+        <div style="
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          gap: 40px;
+          max-width: 1000px;
+          margin: 0 auto;
+        ">
+            <!-- Project 1 -->
+            <div style="
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden; 
+            {{DisplayFirstProject}}
+          ">
+                <img src="{{FirstProjectUrl}}"
+                     alt="{{FirstProjectName}}"
+                     style="width: 100%; height: 120px; object-fit: cover" />
+                <div style="padding: 5px">
+                    <h5 style="margin: 0">{{FirstProjectName}}</h5>
+                    <p style="font-size: 11px; color: #666">
+                        {{FirstProjectDescription}}
+                    </p>
+                </div>
+            </div>
+            <!-- Project 2 -->
+            <div style="
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            {{DisplaySecondProject}}
+          ">
+                <img src="{{SecondProjectUrl}}"
+                     alt="{{SecondProjectName}}"
+                     style="width: 100%; height: 120px; object-fit: cover" />
+                <div style="padding: 5px">
+                    <h5 style="margin: 0">{{SecondProjectName}}</h5>
+                    <p style="font-size: 11px; color: #666">
+                        {{SecondProjectDescription}}
+                    </p>
+                </div>
+            </div>
+            <!-- Project 3 -->
+            <div style="
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            {{DisplayThirdProject}}
+          ">
+                <img src="{{ThirdProjectUrl}}"
+                     alt="{{ThirdProjectName}}"
+                     style="width: 100%; height: 120px; object-fit: cover" />
+                <div style="padding: 5px">
+                    <h5 style="margin: 0">{{ThirdProjectName}}</h5>
+                    <p style="font-size: 11px; color: #666">
+                        {{ThirdProjectDescription}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Abilities Section -->
+    <div style=" display: flex; background-color: #2c2c2c; color: white; padding: 0px 40px; height: 320px; {{DisplaySkills}}">
+        <div style="flex: 1">
+            <img src="{{Profile}}"
+                 alt="Runway Models"
+                 style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+          " />
+        </div>
+        <div style="
+          flex: 1;
+          padding: 20px 60px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        ">
+            <h1 style="font-size: 26px; margin: 10px; font-style: italic">
+                My  <span style="color: #e99653">Skills</span>
+            </h1>
+            <p style="font-size: 16px; line-height: 1.8; margin-bottom: 10px">
+                {{Skills}}
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div style="display: flex; background-color: #fdfdfc; padding: 0; height: 320px;">
+        <div style="
+          flex: 1;
+          background-color: #2c2c2c;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 40px;
+          position: relative;
+        ">
+            <img src="{{Profile}}"
+                 alt="Contact Me"
+                 style="
+            width: 100%;
+            max-width: 400px;
+            object-fit: cover;
+            filter: grayscale(100%);
+          " />
+        </div>
+        <div style="
+          flex: 1;
+          background-color: #f2a974;
+          padding: 0px 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        ">
+            <h1 style="font-size: 26px; margin-bottom: 10px">
+                Get to Know<br />More About Me
+            </h1>
+            <div style="font-size: 16px; color: #333; line-height: 2">
+                <p>📞 {{Phone}}</p>
+                <p>📧 {{Email}}</p>
+            </div>
+            <div style="margin-top: 5px;">
+                <p style="margin-bottom: 10px;">Follow me on</p>
+                <div>
+                    <a href="{{InstagramUrl}}" target="_blank" style="color: #ff5e00; margin: 0 1rem; text-decoration: none; {{DisplayInstagram}}">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="{{LinkedinUrl}}" target="_blank" style="color: #0077b5; margin: 0 1rem; text-decoration: none; {{DisplayLinkedIn}}">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="{{FacebookUrl}}" target="_blank" style="color: #0077b5; margin: 0 1rem; text-decoration: none; {{DisplayFacebook}}">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="{{XUrl}}" target="_blank" style="color: #1da1f2; margin: 0 1rem; text-decoration: none; {{DisplayX}}">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

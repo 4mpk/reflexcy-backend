@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MohaProject.Volo.Abp.Account.Dto;
@@ -12,6 +14,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Emailing;
 using Volo.Abp.Identity;
 using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.Users;
 
 namespace MohaProject.Volo.Abp.Account;
 
@@ -22,11 +25,13 @@ public class CustomAccountAppService : AccountAppService, ICustomAccountAppServi
     private readonly IAppUrlProvider _appUrlProvider;
     private readonly IAccountEmailer _accountEmailer;
     private readonly IEmailSender _emailSender;
-    public CustomAccountAppService(IdentityUserManager userManager, IIdentityRoleRepository roleRepository, IAccountEmailer accountEmailer, IdentitySecurityLogManager identitySecurityLogManager, IOptions<IdentityOptions> identityOptions, IAppUrlProvider appUrlProvider, IEmailSender emailSender) : base(userManager, roleRepository, accountEmailer, identitySecurityLogManager, identityOptions)
+    private readonly ICurrentUser _currentUser;
+    public CustomAccountAppService(IdentityUserManager userManager, IIdentityRoleRepository roleRepository, IAccountEmailer accountEmailer, IdentitySecurityLogManager identitySecurityLogManager, IOptions<IdentityOptions> identityOptions, IAppUrlProvider appUrlProvider, IEmailSender emailSender, ICurrentUser currentUser) : base(userManager, roleRepository, accountEmailer, identitySecurityLogManager, identityOptions)
     {
         _appUrlProvider = appUrlProvider;
         _accountEmailer = accountEmailer;
         _emailSender = emailSender;
+        _currentUser = currentUser;
     }
 
     public virtual async Task<object> PostLoginAsync(LoginDto input)
@@ -94,6 +99,16 @@ public class CustomAccountAppService : AccountAppService, ICustomAccountAppServi
             Password = input.NewPassword,
             ResetToken = Convert.ToString(user.ExtraProperties.GetValueOrDefault("resetToken"))
         });
+
+        return true;
+    }
+
+    [Authorize]
+    public virtual async Task<bool> DeleteAsync()
+    {
+        var user = await UserManager.FindByIdAsync(CurrentUser.GetId().ToString());
+
+        (await UserManager.DeleteAsync(user)).CheckErrors();
 
         return true;
     }
